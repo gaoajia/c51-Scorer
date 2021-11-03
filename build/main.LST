@@ -1,0 +1,269 @@
+C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN D:\project\proteus\work\C\src\main.OBJ
+COMPILER INVOKED BY: D:\root\keil\keil5\C51\BIN\C51.exe D:\project\proteus\work\C\src\main.c
+
+line level    source
+
+   1          #include<reg51.h>
+   2          #include<stdio.h>
+   3          
+   4          unsigned char a=0;      
+   5          unsigned char b=0;    
+   6          unsigned int table[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x6f,0x77,0x7c,0x39,0x5e,0x79,0x71};
+   7          unsigned int off[]={0xfe,0xfd,0xfb,0xf7,0xef,0xdf,0xbf,0x7f}; 
+   8          unsigned char A_bai=0,A_shi=0,A_ge=0,B_bai=0,B_shi=0,B_ge=0;
+   9          unsigned char show_exchange_flag=0;       //显示交换标志位：
+  10          unsigned char team_exchange_flag=0;       //定义队伍标志位：0=A，1=B
+  11          unsigned char sec,min,hour;
+  12          
+  13          sbit KEY1=P1^0; //+1
+  14          sbit KEY2=P1^1; //-1
+  15          sbit KEY3=P1^2; //+3
+  16          sbit KEY4=P1^3; //换场
+  17          sbit KEY5=P1^4; //A\B加分选择
+  18          sbit KEY6=P1^5; //计时启动
+  19          sbit KEY7=P1^6; //计时暂停
+  20          sbit KEY8=P1^7; //计时重置
+  21          
+  22          void delay(int z)
+  23          {                        
+  24   1              int i,j;
+  25   1              for(i=0;i<z;i++);
+  26   1                      for(j=0;j<120;j++);
+  27   1      }
+  28          
+  29          void Add()
+  30          {
+  31   1              P1=0Xff;//置1
+  32   1              P2=0x80;
+  33   1              P0=0x80;
+  34   1              if(team_exchange_flag==0) //A加分
+  35   1              {
+  36   2                      if(!KEY1)
+  37   2                      {
+  38   3                              delay(10);
+  39   3                              if(!KEY1)
+  40   3                              {
+  41   4                                      while(!KEY1); //按键松开
+  42   4                                      a+=1;
+  43   4                              }
+  44   3                      }
+  45   2                      else if(!KEY2)
+  46   2                      {
+  47   3                              delay(10);
+  48   3                              if(!KEY2)
+  49   3                              {
+  50   4                                      while(!KEY2);
+  51   4                                      a-=1;
+  52   4                              }
+  53   3                      }
+  54   2                      else if(!KEY3)
+  55   2                      {
+C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 2   
+
+  56   3                              delay(10);
+  57   3                              if(!KEY3)
+  58   3                              {
+  59   4                                      while(!KEY3);
+  60   4                                      a=0;
+  61   4                              }
+  62   3                      }       
+  63   2              }
+  64   1              else if(team_exchange_flag==1) //B加分
+  65   1              {
+  66   2                      if(!KEY1)
+  67   2                      {
+  68   3                              delay(10);
+  69   3                              if(!KEY1)
+  70   3                              {
+  71   4                                      while(!KEY1);
+  72   4                                      b+=1;
+  73   4                              }
+  74   3                      }
+  75   2                      else if(!KEY2)
+  76   2                      {
+  77   3                              delay(10);
+  78   3                              if(!KEY2)
+  79   3                              {
+  80   4                                      while(!KEY2);
+  81   4                                      b-=1;
+  82   4                              }
+  83   3                      }
+  84   2                      else if(!KEY3)
+  85   2                      {
+  86   3                              delay(10);
+  87   3                              if(!KEY3)
+  88   3                              {
+  89   4                                      while(!KEY3);
+  90   4                                      b=0;
+  91   4                              }
+  92   3                      }       
+  93   2              }
+  94   1              P2=0x80;
+  95   1              P0=0x80;
+  96   1      }
+  97          void key_scan()
+  98          {
+  99   1         P1=0Xff;
+ 100   1         if(!KEY4) 
+ 101   1         {    
+ 102   2                      delay(1);
+ 103   2                      if(!KEY4) 
+ 104   2                      {
+ 105   3                              while(!KEY4);
+ 106   3                              show_exchange_flag+=1;  //取反，即显示内容交换
+ 107   3                      }
+ 108   2                      if(show_exchange_flag>=2) show_exchange_flag=0;
+ 109   2         }
+ 110   1         
+ 111   1              P1=0Xff;
+ 112   1              if(!KEY5)
+ 113   1              {
+ 114   2                      delay(1);
+ 115   2                      if(!KEY5)
+ 116   2                      {
+ 117   3                              while(!KEY5);
+C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 3   
+
+ 118   3                              team_exchange_flag+=1;    //加分选择在A、B之间切换；0表示A队，1表示B队
+ 119   3                      }
+ 120   2                      if(team_exchange_flag>=2) team_exchange_flag=0;
+ 121   2              }
+ 122   1              
+ 123   1              Add();
+ 124   1      }
+ 125           
+ 126          void  decompose()//分解
+ 127          {
+ 128   1              A_bai=(a/100);
+ 129   1              A_shi=(a%100/10);
+ 130   1              A_ge=(a%10);
+ 131   1       
+ 132   1              B_bai=(b/100);
+ 133   1              B_shi=(b%100/10);
+ 134   1              B_ge=(b%10);
+ 135   1       
+ 136   1      }
+ 137          void display_team()     //加分指示
+ 138          {
+ 139   1              if(show_exchange_flag==0)
+ 140   1              {
+ 141   2                      if(team_exchange_flag==0)
+ 142   2                      {
+ 143   3                              P2=0xf7;
+ 144   3                              P0=table[10];
+ 145   3                              delay(1);       
+ 146   3                      }
+ 147   2                       if(team_exchange_flag==1)
+ 148   2                      {
+ 149   3                              P2=0xef;
+ 150   3                              P0=table[11];
+ 151   3                              delay(1);               
+ 152   3                      }
+ 153   2              }
+ 154   1              else if(show_exchange_flag==1)
+ 155   1              {
+ 156   2                      if(team_exchange_flag==0)
+ 157   2                      {
+ 158   3                              P2=0xef; 
+ 159   3                              P0=table[10];
+ 160   3                              delay(1);       
+ 161   3                      }
+ 162   2                       if(team_exchange_flag==1)
+ 163   2                      {
+ 164   3                              P2=0xf7;
+ 165   3                              P0=table[11];
+ 166   3                              delay(1);               
+ 167   3                      }
+ 168   2              }
+ 169   1      }
+ 170          void display()
+ 171          {
+ 172   1              decompose();//分解出百位，十位，个位
+ 173   1              display_team();//加分指示
+ 174   1              if(show_exchange_flag==0)  //显示模式1
+ 175   1              {
+ 176   2              /*********A的分数显示*************/
+ 177   2                      P2=0xfe; 
+ 178   2                      P0=table[A_bai];
+ 179   2                      delay(1);
+C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 4   
+
+ 180   2                      P2=0xfd; 
+ 181   2                      P0=table[A_shi];
+ 182   2                      delay(1);
+ 183   2                      P2=0xfb;  
+ 184   2                      P0=table[A_ge];
+ 185   2                      delay(1);
+ 186   2                  /*********B的分数显示********/
+ 187   2                      P2=0xdf;        
+ 188   2                      P0=table[B_bai];                                        
+ 189   2                      delay(1);
+ 190   2                      P2=0xbf;                        
+ 191   2                      P0=table[B_shi];
+ 192   2                      delay(1);
+ 193   2                      P2=0x7f;        
+ 194   2                      P0=table[B_ge];
+ 195   2                      delay(1);
+ 196   2              }
+ 197   1              else if(show_exchange_flag==1)  
+ 198   1              {
+ 199   2                  /**********B的分数显示*****************/
+ 200   2                      P2=0xfe;
+ 201   2                      P0=table[B_bai];
+ 202   2                      delay(1);
+ 203   2                      P2=0xfd;
+ 204   2                      P0=table[B_shi]; 
+ 205   2                      delay(1);
+ 206   2                      P2=0xfb;                
+ 207   2                      P0=table[B_ge];
+ 208   2                      delay(1);
+ 209   2                  /**********A的分数显示*****************/
+ 210   2                      P2=0xdf;
+ 211   2                      P0=table[A_bai];        
+ 212   2                      delay(1);
+ 213   2                      P2=0xbf;
+ 214   2                      P0=table[A_shi];        
+ 215   2                      delay(1);
+ 216   2                      P2=0x7f;
+ 217   2                      P0=table[A_ge]; 
+ 218   2                      delay(1);
+ 219   2              }
+ 220   1      }
+ 221          
+ 222          void time()
+ 223          {
+ 224   1      
+ 225   1      }
+ 226          
+ 227          void main()
+ 228          {
+ 229   1              a=0;
+ 230   1              b=0;
+ 231   1              P1=0Xff;//按键输入端口电平置1；检测出低电平即为按下
+ 232   1              P3=0x3f;
+ 233   1              while(1)
+ 234   1              {
+ 235   2                      display();
+ 236   2                      key_scan(); 
+ 237   2              }
+ 238   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 5   
+
+   CODE SIZE        =    523    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =     61    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

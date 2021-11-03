@@ -1,0 +1,84 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        11/03/2021  12:42:00  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\ROOT\KEIL\KEIL5\C51\BIN\BL51.EXE D:\PROJECT\PROTEUS\WORK\C\BUILD\MAIN.OBJ TO MAIN
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  D:\PROJECT\PROTEUS\WORK\C\BUILD\MAIN.OBJ (MAIN)
+  D:\ROOT\KEIL\KEIL5\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\ROOT\KEIL\KEIL5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  MAIN (MAIN)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     003DH     UNIT         ?DT?MAIN
+            IDATA   0045H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0090H     UNIT         ?PR?ADD?MAIN
+            CODE    0890H     008CH     UNIT         ?C_C51STARTUP
+            CODE    091CH     006CH     UNIT         ?PR?DISPLAY?MAIN
+            CODE    0988H     0054H     UNIT         ?C_INITSEG
+            CODE    09DCH     004EH     UNIT         ?PR?DISPLAY_TEAM?MAIN
+            CODE    0A2AH     003FH     UNIT         ?PR?DECOMPOSE?MAIN
+            CODE    0A69H     0039H     UNIT         ?PR?KEY_SCAN?MAIN
+            CODE    0AA2H     0035H     UNIT         ?PR?_DELAY?MAIN
+            CODE    0AD7H     0013H     UNIT         ?PR?MAIN?MAIN
+            CODE    0AEAH     0001H     UNIT         ?PR?TIME?MAIN
+
+
+
+OVERLAY MAP OF MODULE:   MAIN (MAIN)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?MAIN
+  +--> ?C_INITSEG
+
+?PR?MAIN?MAIN
+  +--> ?PR?DISPLAY?MAIN
+  +--> ?PR?KEY_SCAN?MAIN
+
+?PR?DISPLAY?MAIN
+  +--> ?PR?DECOMPOSE?MAIN
+  +--> ?PR?DISPLAY_TEAM?MAIN
+  +--> ?PR?_DELAY?MAIN
+BL51 BANKED LINKER/LOCATER V6.22                                                      11/03/2021  12:42:00  PAGE 2
+
+
+
+?PR?DISPLAY_TEAM?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+?PR?KEY_SCAN?MAIN
+  +--> ?PR?_DELAY?MAIN
+  +--> ?PR?ADD?MAIN
+
+?PR?ADD?MAIN
+  +--> ?PR?_DELAY?MAIN
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?TIME?MAIN
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 025EH BYTE (29%) *
+******************************************************************************
+
+Program Size: data=70.0 xdata=0 code=750
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)
