@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 1   
+C51 COMPILER V9.54   MAIN                                                                  11/05/2021 23:37:45 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   53   3                      }
   54   2                      else if(!KEY3)
   55   2                      {
-C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 2   
+C51 COMPILER V9.54   MAIN                                                                  11/05/2021 23:37:45 PAGE 2   
 
   56   3                              delay(10);
   57   3                              if(!KEY3)
@@ -126,7 +126,7 @@ line level    source
  115   2                      if(!KEY5)
  116   2                      {
  117   3                              while(!KEY5);
-C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 3   
+C51 COMPILER V9.54   MAIN                                                                  11/05/2021 23:37:45 PAGE 3   
 
  118   3                              team_exchange_flag+=1;    //加分选择在A、B之间切换；0表示A队，1表示B队
  119   3                      }
@@ -190,7 +190,7 @@ line level    source
  177   2                      P2=0xfe; 
  178   2                      P0=table[A_bai];
  179   2                      delay(1);
-C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 4   
+C51 COMPILER V9.54   MAIN                                                                  11/05/2021 23:37:45 PAGE 4   
 
  180   2                      P2=0xfd; 
  181   2                      P0=table[A_shi];
@@ -254,7 +254,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-C51 COMPILER V9.54   MAIN                                                                  11/03/2021 12:42:00 PAGE 5   
+C51 COMPILER V9.54   MAIN                                                                  11/05/2021 23:37:45 PAGE 5   
 
    CODE SIZE        =    523    ----
    CONSTANT SIZE    =   ----    ----
